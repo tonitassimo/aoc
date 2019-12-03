@@ -1,5 +1,5 @@
-module Lib
-    ( calcFuel
+module Day01
+    ( calculateTotalFuel
     ) where
 
 type Module = Int
@@ -23,17 +23,19 @@ modules = [115175,57676,60193,72564,80321,71598,105010,
            86829,65985,78223,81857,83423,147118,129117,147612,
            63482,57350,126132,88534,90676,56669,120383,126892,74203,103766]
 
-calcFuel :: Modules -> Int
-calcFuel [] = 0 
-calcFuel (x:xs) = calcFuelForOneModule x + calcFuel xs
+calculateTotalFuel :: Modules -> Fuel
+calculateTotalFuel [] = 0 
+calculateTotalFuel (x:xs) = let fuelForModule = calculateFuelForModule x in
+                                (fuelForModule + calculateFuelForFuel fuelForModule) + calculateTotalFuel xs
 
-calcFuelForOneModule :: Module -> Int
-calcFuelForOneModule m = (div m 3) - 2
+calculateFuelForModule :: Module -> Fuel
+calculateFuelForModule = baseCalculation 
 
+calculateFuelForFuel :: Fuel -> Fuel
+calculateFuelForFuel f = let res = baseCalculation f in
+                    if res < 0 
+                        then 0
+                        else res + calculateFuelForFuel res
 
---calcFuelForOneModuleInclFuel :: Module -> Int
---calcFuelForOneModuleInclFuel m = let fuelForModule = calcFuelForModule m in
---    fuelForModule + calcFuelForFuel (fuelForModule)
-
---calcFuelForFuel :: Int -> Int
---calcFuelForFuel x = x
+baseCalculation :: Int -> Int
+baseCalculation i = (div i 3) - 2
