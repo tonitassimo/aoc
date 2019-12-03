@@ -1,5 +1,6 @@
 module Day01
-    ( calculateTotalFuel
+    ( calculateTotalFuel,
+      modules
     ) where
 
 type Module = Int
