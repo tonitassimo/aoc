@@ -40,7 +40,28 @@ getOp 1 = Just (+)
 getOp 2 = Just (*)
 getOp _ = Nothing
 
+-- Part II
+
+goal :: Maybe Int
+goal = Just 19690720
+
+calculateResult :: Int -> Int -> Int
+calculateResult noun verb = 100 * noun + verb
+
+initial' :: Int -> Int -> M.Map Int Int
+initial' noun verb = M.insert 2 verb $ M.insert 1 noun $ convert input
+
+possiblePrograms :: [(Int, Int, M.Map Int Int)]
+possiblePrograms = [0..99] >>=
+    ( \noun -> [0..99] >>=
+    ( \verb -> pure $ (noun, verb, initial' noun verb)))
+
 -- Main
+
+solve2 =
+    case filter (\(_, _, t) -> (executeProgram t 0 >>= M.lookup 0) == goal) possiblePrograms of
+        ((noun, verb, _):_) -> print $ calculateResult noun verb
+        _ -> print "No result found"
 
 solve =
     print $ executeProgram initial 0 >>= M.lookup 0
