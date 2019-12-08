@@ -4,6 +4,8 @@ module Day06
 
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
+import Utilities.Graphs
+import Data.Tuple.Extra (both)
 
 input = [
     ("N66", "QHW"),
@@ -1453,3 +1455,8 @@ input = [
 
 verifyChecksum :: Bool
 verifyChecksum = True
+
+graph =
+    listGraphToEqualMapGraph $
+    EquallyWeighted $
+    map (both Keyed) input
