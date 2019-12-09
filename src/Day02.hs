@@ -2,6 +2,9 @@ module Day02 where
 
 import qualified Data.Map.Strict as M
 
+import Control.Monad (guard)
+import Data.List (group)
+
 -- Creation and transformation of input data
 
 input :: [Int]
@@ -65,3 +68,7 @@ solve2 =
 
 solve =
     print $ executeProgram initial 0 >>= M.lookup 0
+
+
+--- Refactoring and part II
+
