@@ -2,6 +2,9 @@ module Day04
     ( findValidPasswords
     ) where
 
+import Control.Monad (guard)
+import Data.List (group)
+
 -- Types and constants
 
 type Password = [Int]
@@ -48,3 +51,25 @@ consistsOfGrowingNumbers (x:[]) = True
 consistsOfGrowingNumbers (first:second:xs) = if first > second
                                                 then False
                                                 else consistsOfGrowingNumbers (second:xs)
+
+
+
+--- Refactoring and part II
+
+s = 134564
+e = 585159
+
+exTwoAdj = elem 2 . map length . group . show
+
+notDecr = go . show
+    where
+        go (x:y:rest) = x <= y && go (y:rest)
+        go [x] = True
+        go _ = False
+
+possible = do
+    v <- [s..e]
+    guard $ exTwoAdj v && notDecr v
+    pure v
+
+solve = print $ length possible
